@@ -1,27 +1,26 @@
-// eslint-disable-next-line no-undef
 const rlSync = require('readline-sync');
+
+function readability(move) {
+  switch (move) {
+    case 'ro':
+      return 'rock';
+    case 'pa':
+      return 'paper';
+    case 'sc':
+      return 'scissors';
+    case 'sp':
+      return 'spock';
+    case 'li':
+      return 'lizard';
+    default:
+      return move;
+  }
+}
 
 const moveHistory = {
   pastHuman: [],
 
   pastComputer: [],
-
-  readablility(move) {
-    switch (move) {
-      case 'ro':
-        return 'rock';
-      case 'pa':
-        return 'paper';
-      case 'sc':
-        return 'scissors';
-      case 'sp':
-        return 'spock';
-      case 'li':
-        return 'lizard';
-      default:
-        return move;
-    }
-  },
 
   trackMove(winner) {
     if (winner === 'human') {
@@ -30,9 +29,6 @@ const moveHistory = {
         this.pastComputer.push(RPSGame.computer.move.toUpperCase())
     }
   }
-
-
-  
 
 }
 
@@ -55,8 +51,6 @@ function createComputer() {
 }
 
 
-
-
 function createHuman() {
   let playerObject = createPlayer();
 
@@ -75,7 +69,7 @@ function createHuman() {
         console.log('Sorry, invalid choice.');
       }
 
-      this.move = moveHistory.readablility(choice);
+      this.move = readability(choice);
     },
   };
 
@@ -115,9 +109,6 @@ const SCORE = {
 }
 
 
-
-
-
 const RPSGame = {
   human: createHuman(),
   computer: createComputer(),
@@ -127,11 +118,9 @@ const RPSGame = {
   displayWelcomeMessage() {
     console.log('Welcome to Rock, Paper, Scissors, Spock, Lizard');
   },
-  displayGoodbyeMessage() {
-    console.log(`Computer winning choices: ${moveHistory.pastComputer.join(', ')}\nHuman winning choices: ${moveHistory.pastHuman.join(', ')}\n\nThe final score is\nHuman: ${SCORE.humanScore}\nComputer: ${SCORE.computerScore}\nThanks for playing Rock, Paper, Scissors, Spock, Lizard. Goodbye!`);
-  },
 
-  displayWinner() {
+
+  determineWinner() {
     let humanMove = this.human.move.slice(0, 2);
     let computerMove = this.computer.move.slice(0, 2);
     
@@ -144,30 +133,45 @@ const RPSGame = {
         (humanMove === 'sc' && ['pa', 'li'].includes(computerMove)) ||
         (humanMove === 'li' && ['sp', 'pa'].includes(computerMove)) ||
         (humanMove === 'sp' && ['ro', 'sc'].includes(computerMove))) {
-      console.log('YOU WIN!');
       this.winner = 'human';
     } else if ((computerMove === 'ro' && ['sc', 'li'].includes(humanMove)) ||
               (computerMove === 'pa' && ['sp', 'ro'].includes(humanMove)) ||
               (computerMove === 'sc' && ['pa', 'li'].includes(humanMove)) ||
               (computerMove === 'li' && ['sp', 'pa'].includes(humanMove)) ||
               (computerMove === 'sp' && ['ro', 'sc'].includes(humanMove))) {
-      console.log('COMPUTER WINS!');
       this.winner = 'computer';
     } else {
-      console.log("It's a tie");
       this.winner = 'tie';
     }
   },
 
+  displayWinner() {
+    if (this.winner === 'human') {
+      console.log('YOU WIN!');
+    } else if (this.winner === 'computer') {
+      console.log('COMPUTER WINS!');
+    } else {
+      console.log("It's a tie");
+    }
+  },
+
+
   displaySeriesWinner() {
     console.log(`${this.winner === 'human' ? 'YOU are' : 'The COMPUTER is'} the WINNER!!!!!`);
   },
+
 
   playAgain() {
     console.log('Would you like to play again? (y/n)');
     let answer = rlSync.question();
     return answer.toLowerCase()[0] === 'y';
   },
+
+
+  displayGoodbyeMessage() {
+    console.log(`Computer winning choices: ${moveHistory.pastComputer.join(', ')}\nHuman winning choices: ${moveHistory.pastHuman.join(', ')}\n\nThe final score is\nHuman: ${SCORE.humanScore}\nComputer: ${SCORE.computerScore}\nThanks for playing Rock, Paper, Scissors, Spock, Lizard. Goodbye!`);
+  },
+
 
   play() {
     console.clear();
@@ -182,6 +186,7 @@ const RPSGame = {
         this.human.choose();
         this.computer.choose();
         console.clear();
+        this.determineWinner();
         this.displayWinner();
         SCORE.incrementScore(this.winner);
         SCORE.displayScore();
