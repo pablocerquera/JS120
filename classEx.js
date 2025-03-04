@@ -100,8 +100,8 @@ let civic = new Cars('red', '2 tons', 'avd430');
 let draka = new Boats('brown', '100 tons', 'Portlandia') 
 let sdfg = new Planes('white', '123 tons', 'American')
 
-// console.log(draka.info())
-// console.log(civic.info())
+console.log(draka.info())
+console.log(civic.info())
 console.log(sdfg.accelerate())
 
 console.log(civic instanceof Cars)

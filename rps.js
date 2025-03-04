@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 const rlSync = require('readline-sync');
 
 function readability(move) {
