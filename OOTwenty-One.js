@@ -3,15 +3,6 @@ const rl = require('readline-sync');
 // eslint-disable-next-line no-undef
 const chalk = require("chalk");
 
-
-// class Card {
-//   constructor(){
-//     //STUB
-//     // What sort of state does a card need?
-//     // Rank? Suit? Points?
-//   }
-// }
-
 class Deck {
   static FULL_DECK = [['H', '2'], ['H', '3'], ['H', '4'], ['H', '5'], ['H', '6'], ['H', '7'],
   ['H', '8'], ['H', '9'],['H', '10'], ['H', 'J'], ['H', 'Q'], ['H', 'K'], ['H', 'A'],
